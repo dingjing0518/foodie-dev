@@ -18,20 +18,57 @@
             <result column="father_id" property="subFatherId" jdbcType="INTEGER"/>
         </collection>
     </resultMap>
+
+    <resultMap id="myNewItemsVO" type="com.imooc.pojo.vo.NewItemsVO">
+        <id column="rootCatId" property="rootCatId" jdbcType="INTEGER"/>
+        <result column="rootCatName" property="rootCatName" jdbcType="VARCHAR"/>
+        <result column="slogan" property="slogan" jdbcType="VARCHAR"/>
+        <result column="catImage" property="catImage" jdbcType="VARCHAR"/>
+        <result column="bgColor" property="bgColor" jdbcType="VARCHAR"/>
+
+        <collection property="simpleItemist" ofType="com.imooc.pojo.vo.SimpleItemVO">
+            <id column="itemId" property="itemId" jdbcType="INTEGER"/>
+            <result column="itemName" property="itemName" jdbcType="VARCHAR"/>
+            <result column="itemUrl" property="itemUrl" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
     <select id="getSubCatList" resultMap="myCategoryVO" parameterType="int">
         select
-          f.id as id,
-          f. name as name,
-          f.father_id as fatherId,
-          c.id as subId,
-          c. name as subName,
-          c.type as subType,
-          c.father_id as subFatherId
+            f.id as id,
+            f. name as name,
+            f.father_id as fatherId,
+            c.id as subId,
+            c. name as subName,
+            c.type as subType,
+            c.father_id as subFatherId
         from
 	        category f
         left join category c on f.id = c.father_id
         where
         f.father_id = #{rootCatId}
+    </select>
+    <select id="getSixNewItemsLazy" resultMap="myNewItemsVO"  parameterType="Map">
+        select
+            f.id as rootCatId,
+            f. name as rootCatName,
+            f.slogan as slogan,
+            f.cat_image as catImage,
+            f.bg_color as bgColor,
+            i.id as itemId,
+            i.item_name as itemName,
+            ii.url as itemUrl,
+            i.created_time as createdTime
+        from
+            category f
+        left join items i on f.id = i.root_cat_id
+        left join items_img ii on i.id = ii.item_id
+        where
+            f.type = 1
+        and i.root_cat_id = #{paramsMap.rootCatId}
+        and ii.is_main = 1
+        order by
+            i.created_time desc
+        limit 0,6;
     </select>
 
 </mapper>
