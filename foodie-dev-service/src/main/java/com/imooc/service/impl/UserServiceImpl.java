@@ -18,7 +18,7 @@ import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final String USER_FACE = "https://gss0.bdstatic.com/6LZ1dD3d1sgCo2Kml5_Y_D3/sys/portrait/item/tb.1.f489a79.1BEvCWWUozC0VQ92CREnYA.jpg";
+    private static final String USER_FACE = "http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png";
     @Autowired
     private Sid sid;
     @Autowired

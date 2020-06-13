@@ -2,29 +2,36 @@ package com.imooc.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
-public class CorsConfig extends WebMvcConfigurerAdapter {
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        // 设置允许跨域的路径
-        registry.addMapping("/**")
-                // 设置允许跨域请求的域名
-                .allowedOrigins("*")
-                // 是否允许证书 不再默认开启
-                .allowCredentials(true)
-                // 设置允许的方法
-                .allowedMethods("*")
-                // 跨域允许时间
-                .maxAge(3600);
+public class CorsConfig {
+    public CorsConfig() {
+
     }
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("doc.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
+    @Bean
+    public CorsFilter corsFilter() {
+        //添加cros配置信息
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");
+        //设置是否发送cookie信息
+        corsConfiguration.setAllowCredentials(true);
+
+        //设置允许请求的方式
+        corsConfiguration.addAllowedMethod("*");
+
+        //设置允许的header
+        corsConfiguration.addAllowedHeader("*");
+
+        //为url添加映射路径
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        //返回重新定义好的source
+        return new CorsFilter(source);
     }
 }
