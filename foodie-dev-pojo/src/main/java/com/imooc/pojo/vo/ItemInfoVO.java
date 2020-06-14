@@ -14,7 +14,7 @@ public class ItemInfoVO {
     private Items item;
     private List<ItemsImg> itemImgList;
     private List<ItemsSpec> itemSpecList;
-    private ItemsParam itemParam;
+    private ItemsParam itemParams;
 
     public Items getItem() {
         return item;
@@ -40,11 +40,10 @@ public class ItemInfoVO {
         this.itemSpecList = itemSpecList;
     }
 
-    public ItemsParam getItemParam() {
-        return itemParam;
+    public ItemsParam getItemParams() {
+        return itemParams;
     }
-
-    public void setItemParam(ItemsParam itemParam) {
-        this.itemParam = itemParam;
+    public void setItemParams(ItemsParam itemParams) {
+        this.itemParams = itemParams;
     }
 }

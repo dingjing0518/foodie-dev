@@ -4,7 +4,6 @@ import com.imooc.pojo.Items;
 import com.imooc.pojo.ItemsImg;
 import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
-import com.imooc.pojo.vo.CategoryVO;
 import com.imooc.pojo.vo.ItemInfoVO;
 import com.imooc.service.ItemService;
 import com.imooc.utils.IMOOCJSONResult;
@@ -43,7 +42,7 @@ public class ItemsController {
         itemInfoVO.setItem(item);
         itemInfoVO.setItemImgList(itemImgList);
         itemInfoVO.setItemSpecList(itemSpecList);
-        itemInfoVO.setItemParam(itemParam);
+        itemInfoVO.setItemParams(itemParam);
         return IMOOCJSONResult.ok(itemInfoVO);
     }
 }
