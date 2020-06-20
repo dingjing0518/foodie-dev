@@ -1,6 +1,5 @@
 package com.imooc.config;
 
-import io.swagger.models.Path;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;

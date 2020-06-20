@@ -47,3 +47,8 @@ mapper:
   mappers: com.imooc.my.mapper.MyMapper
   not-empty: false
   identity: MYSQL
+
+#分页插件配置
+pagehelper:
+  helper-dialect: mysql
+  support-methods-arguments: true     #是否支持分页传参
