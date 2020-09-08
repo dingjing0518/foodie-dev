@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> queryAllRootLevelCat(Integer type) {
         Example example = new Example(Category.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("type");
+        criteria.andEqualTo("type", type);
         List<Category> result = categoryMapper.selectByExample(example);
         return result;
     }
@@ -42,8 +42,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<NewItemsVO> getSixNewItemsLazy(Integer rootCatId) {
-        Map<String,Object> map=new HashMap<>();
-        map.put("rootCatId",rootCatId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("rootCatId", rootCatId);
         return categoryMapperCustom.getSixNewItemsLazy(map);
     }
 }
