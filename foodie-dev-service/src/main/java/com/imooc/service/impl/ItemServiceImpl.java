@@ -7,6 +7,7 @@ import com.imooc.mapper.*;
 import com.imooc.pojo.*;
 import com.imooc.pojo.vo.CommentsLevelCountsVO;
 import com.imooc.pojo.vo.ItemCommentVO;
+import com.imooc.pojo.vo.SearchItemsVO;
 import com.imooc.service.ItemService;
 import com.imooc.utils.DesensitizationUtil;
 import com.imooc.utils.PagedGridResult;
@@ -98,12 +99,28 @@ public class ItemServiceImpl implements ItemService {
          * mybatis-pageHelper
          * 使用分页插件，在查询之前使用分页插件，原理：统一拦截sql,拼接分页语句，为其提供分页功能
          */
+        /**
+         * page：第几页
+         * pageSize：每页显示条数
+         */
         PageHelper.startPage(page, pageSize);
         List<ItemCommentVO> list = itemsMapperCustom.queryItemsComments(map);
         for (ItemCommentVO vo : list) {
             vo.setNickname(DesensitizationUtil.commonDisplay(vo.getNickname()));
         }
         return setterPagedGrid(list, page);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PagedGridResult searchItems(String keywords, String sort, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("keywords", keywords);
+        map.put("sort", sort);
+
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemsVO> list = itemsMapperCustom.searchItems(map);
+        return  setterPagedGrid(list, page);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -116,6 +133,12 @@ public class ItemServiceImpl implements ItemService {
         return itemsCommentsMapper.selectCount(condition);
     }
 
+    /**
+     *
+     * @param list 记录数
+     * @param page 第几页
+     * @return PagedGridResult
+     */
     private PagedGridResult setterPagedGrid(List<?> list, Integer page) {
         PageInfo<?> pageList = new PageInfo<>(list);
         PagedGridResult grid = new PagedGridResult();

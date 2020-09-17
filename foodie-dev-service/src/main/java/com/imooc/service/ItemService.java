@@ -47,18 +47,28 @@ public interface ItemService {
      * 根据商品id查询商品的评价等级数量
      *
      * @param itemId 商品ID
-     * @return
+     * @return 评价等级数量
      */
-    public CommentsLevelCountsVO queryCommentsCounts(String itemId);
+    CommentsLevelCountsVO queryCommentsCounts(String itemId);
 
     /**
      * 根据商品id查询商品的评价(分页)
      *
-     * @param itemId
-     * @param level
-     * @param page
-     * @param pageSize
-     * @return
+     * @param itemId 商品ID
+     * @param level 评价等级
+     * @param page 当前页
+     * @param pageSize 分页数量
+     * @return 商品的评价
      */
-    public PagedGridResult queryPagedComments(String itemId, Integer level, Integer page, Integer pageSize);
+    PagedGridResult queryPagedComments(String itemId, Integer level, Integer page, Integer pageSize);
+
+    /**
+     * 商品搜索列表
+     * @param keywords 关键词
+     * @param sort 排序
+     * @param page 当前页
+     * @param pageSize 分页数量
+     * @return 商品列表
+     */
+    PagedGridResult searchItems(String keywords, String sort, Integer page, Integer pageSize);
 }
