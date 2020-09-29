@@ -88,6 +88,9 @@ public class PassportController {
         }
         users = setNullProperty(users);
         CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(users), true);
+
+        //TODO 生成用户token,存入redis
+        //TODO 同步购物车数据
         return IMOOCJSONResult.ok(users);
     }
 
