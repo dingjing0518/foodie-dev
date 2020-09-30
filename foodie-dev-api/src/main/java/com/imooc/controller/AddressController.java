@@ -1,8 +1,10 @@
 package com.imooc.controller;
 
 import com.imooc.pojo.UserAddress;
+import com.imooc.pojo.bo.AddressBO;
 import com.imooc.service.AddressService;
 import com.imooc.utils.IMOOCJSONResult;
+import com.imooc.utils.MobileEmailUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,4 +41,47 @@ public class AddressController {
         return IMOOCJSONResult.ok(result);
     }
 
+    @ApiOperation(value = "查询收货地址列表", notes = "查询收货地址列表", httpMethod = "POST")
+    @PostMapping("/add")
+    public IMOOCJSONResult add(
+            @RequestBody AddressBO addressBO) {
+        IMOOCJSONResult checkAddress = checkAddress(addressBO);
+        if (checkAddress.getStatus() != 200) {
+            return checkAddress;
+        }
+        addressService.addNewUserAddress(addressBO);
+        return IMOOCJSONResult.ok();
+    }
+
+    private IMOOCJSONResult checkAddress(AddressBO addressBO) {
+        String receiver = addressBO.getReceiver();
+        if (StringUtils.isBlank(receiver)) {
+            return IMOOCJSONResult.errorMsg("收货人不能为空");
+        }
+        if (receiver.length() > 12) {
+            return IMOOCJSONResult.errorMsg("收货人姓名不能太长");
+        }
+        String mobile = addressBO.getMobile();
+        if (StringUtils.isBlank(mobile)) {
+            return IMOOCJSONResult.errorMsg("收货人手机号不能为空");
+        }
+        if (mobile.length() != 11) {
+            return IMOOCJSONResult.errorMsg("收货人手机号长度不正确");
+        }
+        boolean isMobileOk = MobileEmailUtils.checkMobileIsOk(mobile);
+        if (!isMobileOk) {
+            return IMOOCJSONResult.errorMsg("收货人手机号格式不正确");
+        }
+        String province = addressBO.getProvince();
+        String city = addressBO.getCity();
+        String district = addressBO.getDistrict();
+        String detail = addressBO.getDetail();
+        if (StringUtils.isBlank(province) ||
+                StringUtils.isBlank(city) ||
+                StringUtils.isBlank(district) ||
+                StringUtils.isBlank(detail)) {
+            return IMOOCJSONResult.errorMsg("收货地址信息不能为空");
+        }
+        return IMOOCJSONResult.ok();
+    }
 }
