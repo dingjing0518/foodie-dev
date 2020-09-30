@@ -68,6 +68,34 @@ public class AddressController {
         return IMOOCJSONResult.ok();
     }
 
+    @ApiOperation(value = "用户删除地址", notes = "用户删除地址", httpMethod = "POST")
+    @PostMapping("/delete")
+    public IMOOCJSONResult delete(
+            @ApiParam(name = "userId", value = "用户Id", required = true)
+            @RequestParam String userId,
+            @ApiParam(name = "addressId", value = "地址Id", required = true)
+            @RequestParam String addressId) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(addressId)) {
+            return IMOOCJSONResult.errorMsg("");
+        }
+        addressService.deleteUserAddress(userId, addressId);
+        return IMOOCJSONResult.ok();
+    }
+
+    @ApiOperation(value = "用户设置默认地址", notes = "用户设置默认地址", httpMethod = "POST")
+    @PostMapping("/setDefault")
+    public IMOOCJSONResult setDefault(
+            @ApiParam(name = "userId", value = "用户Id", required = true)
+            @RequestParam String userId,
+            @ApiParam(name = "addressId", value = "地址Id", required = true)
+            @RequestParam String addressId) {
+        if (StringUtils.isBlank(userId) || StringUtils.isBlank(addressId)) {
+            return IMOOCJSONResult.errorMsg("");
+        }
+        addressService.updateUserAddressToBeDefault(userId, addressId);
+        return IMOOCJSONResult.ok();
+    }
+
     private IMOOCJSONResult checkAddress(AddressBO addressBO) {
         String receiver = addressBO.getReceiver();
         if (StringUtils.isBlank(receiver)) {
