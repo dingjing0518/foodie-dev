@@ -41,7 +41,7 @@ public class AddressController {
         return IMOOCJSONResult.ok(result);
     }
 
-    @ApiOperation(value = "查询收货地址列表", notes = "查询收货地址列表", httpMethod = "POST")
+    @ApiOperation(value = "用户新增地址", notes = "用户新增地址", httpMethod = "POST")
     @PostMapping("/add")
     public IMOOCJSONResult add(
             @RequestBody AddressBO addressBO) {
@@ -50,6 +50,21 @@ public class AddressController {
             return checkAddress;
         }
         addressService.addNewUserAddress(addressBO);
+        return IMOOCJSONResult.ok();
+    }
+
+    @ApiOperation(value = "用户修改地址", notes = "用户修改地址", httpMethod = "POST")
+    @PostMapping("/update")
+    public IMOOCJSONResult update(
+            @RequestBody AddressBO addressBO) {
+        if (StringUtils.isBlank(addressBO.getAddressId())) {
+            return IMOOCJSONResult.errorMsg("修改地址错误：addressId不能为空");
+        }
+        IMOOCJSONResult checkAddress = checkAddress(addressBO);
+        if (checkAddress.getStatus() != 200) {
+            return checkAddress;
+        }
+        addressService.updateUserAddress(addressBO);
         return IMOOCJSONResult.ok();
     }
 
