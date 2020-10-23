@@ -45,7 +45,7 @@ public class OrdersController extends BaseController {
         return IMOOCJSONResult.ok(orderId);
     }
 
-    @ApiOperation(value = "回调通知", notes = "回调通知", httpMethod = "POST")
+    @ApiOperation(value = "支付成功回调接口", notes = "支付成功回调接口", httpMethod = "POST")
     @PostMapping("/notifyMerchantOrderPaid")
     public Integer notifyMerchantOrderPaid(String merchantOrderPaid) {
         orderService.updateOrderStatus(merchantOrderPaid, OrderStatusEnum.WAIT_DELIVER.type);
