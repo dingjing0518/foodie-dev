@@ -55,9 +55,9 @@ public interface ItemService {
     /**
      * 根据商品id查询商品的评价(分页)
      *
-     * @param itemId 商品ID
-     * @param level 评价等级
-     * @param page 当前页
+     * @param itemId   商品ID
+     * @param level    评价等级
+     * @param page     当前页
      * @param pageSize 分页数量
      * @return 商品的评价
      */
@@ -65,9 +65,10 @@ public interface ItemService {
 
     /**
      * 商品搜索列表
+     *
      * @param keywords 关键词
-     * @param sort 排序
-     * @param page 当前页
+     * @param sort     排序
+     * @param page     当前页
      * @param pageSize 分页数量
      * @return 商品列表
      */
@@ -75,9 +76,10 @@ public interface ItemService {
 
     /**
      * 根据分类Id搜索商品列表
-     * @param catId 三级分类Id
-     * @param sort 排序
-     * @param page 当前页
+     *
+     * @param catId    三级分类Id
+     * @param sort     排序
+     * @param page     当前页
      * @param pageSize 分页数量
      * @return 商品列表
      */
@@ -90,4 +92,28 @@ public interface ItemService {
      * @return shopCartVo
      */
     List<ShopCartVO> queryItemsBySpecIds(String specIds);
+
+    /**
+     * 根据规格id获取商品数据
+     *
+     * @param specId 规格id
+     * @return 商品数据
+     */
+    ItemsSpec queryItemsBySpecId(String specId);
+
+    /**
+     * 根据商品id获取商品主图url
+     *
+     * @param itemId 商品id
+     * @return 商品主图url
+     */
+    String queryItemMainImgById(String itemId);
+
+    /**
+     * 扣减商品规格的库存
+     *
+     * @param specId    规格Id
+     * @param buyCounts 购买数量
+     */
+    void decreaseItemSpecStock(String specId, int buyCounts);
 }

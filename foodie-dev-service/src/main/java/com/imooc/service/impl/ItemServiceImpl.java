@@ -3,6 +3,7 @@ package com.imooc.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.imooc.enums.CommentLevel;
+import com.imooc.enums.YesOrNo;
 import com.imooc.mapper.*;
 import com.imooc.pojo.*;
 import com.imooc.pojo.vo.CommentsLevelCountsVO;
@@ -119,7 +120,7 @@ public class ItemServiceImpl implements ItemService {
 
         PageHelper.startPage(page, pageSize);
         List<SearchItemsVO> list = itemsMapperCustom.searchItems(map);
-        return  setterPagedGrid(list, page);
+        return setterPagedGrid(list, page);
     }
 
     @Override
@@ -131,8 +132,9 @@ public class ItemServiceImpl implements ItemService {
 
         PageHelper.startPage(page, pageSize);
         List<SearchItemsVO> list = itemsMapperCustom.searchItemsByThirdCat(map);
-        return  setterPagedGrid(list, page);
+        return setterPagedGrid(list, page);
     }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<ShopCartVO> queryItemsBySpecIds(String specIds) {
@@ -142,6 +144,34 @@ public class ItemServiceImpl implements ItemService {
         Collections.addAll(specIdsList, ids);
 
         return itemsMapperCustom.queryItemsBySpecIds(specIdsList);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public ItemsSpec queryItemsBySpecId(String specId) {
+        return itemsSpecMapper.selectByPrimaryKey(specId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public String queryItemMainImgById(String itemId) {
+        ItemsImg itemsImg = new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.YES.type);
+        ItemsImg img = itemsImgMapper.selectOne(itemsImg);
+        return img != null ? img.getUrl() : "";
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void decreaseItemSpecStock(String specId, int buyCounts) {
+        //synchronized 不推荐使用，集群下无用，性能低下
+        //锁数据库：不推荐，导致数据库性能地下
+        //分布式锁
+        int result = itemsMapperCustom.decreaseItemSpecStock(specId, buyCounts);
+        if (result != 1) {
+            throw new RuntimeException("订单创建失败，原因：库存不足！");
+        }
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -155,7 +185,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     /**
-     *
      * @param list 记录数
      * @param page 第几页
      * @return PagedGridResult
