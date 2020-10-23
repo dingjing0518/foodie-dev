@@ -1,5 +1,6 @@
 package com.imooc.controller;
 
+import com.imooc.enums.OrderStatusEnum;
 import com.imooc.enums.PayMethod;
 import com.imooc.pojo.bo.SubmitOrderBO;
 import com.imooc.service.OrderService;
@@ -7,6 +8,8 @@ import com.imooc.utils.CookieUtils;
 import com.imooc.utils.IMOOCJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("orders")
 public class OrdersController extends BaseController {
 
+    @Autowired
     private OrderService orderService;
 
     @ApiOperation(value = "创建订单", notes = "创建订单", httpMethod = "POST")
@@ -39,5 +43,12 @@ public class OrdersController extends BaseController {
 //        CookieUtils.setCookie(request, response, FOODIE_SHOPCART, "", true);
         //3.向支付中心发送当前订单，用于保存支付中心的订单数据
         return IMOOCJSONResult.ok(orderId);
+    }
+
+    @ApiOperation(value = "回调通知", notes = "回调通知", httpMethod = "POST")
+    @PostMapping("/notifyMerchantOrderPaid")
+    public Integer notifyMerchantOrderPaid(String merchantOrderPaid) {
+        orderService.updateOrderStatus(merchantOrderPaid, OrderStatusEnum.WAIT_DELIVER.type);
+        return HttpStatus.OK.value();
     }
 }

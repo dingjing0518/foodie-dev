@@ -6,7 +6,16 @@ import com.imooc.pojo.bo.SubmitOrderBO;
 public interface OrderService {
     /**
      * 用于创建订单相关
+     *
      * @param submitOrderBO 用于创建订单的BO对象
      */
     String createOrder(SubmitOrderBO submitOrderBO);
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderId     订单id
+     * @param orderStatus 订单状态
+     */
+    void updateOrderStatus(String orderId, Integer orderStatus);
 }
