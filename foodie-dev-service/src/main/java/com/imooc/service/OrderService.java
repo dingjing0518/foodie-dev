@@ -2,6 +2,7 @@ package com.imooc.service;
 
 
 import com.imooc.pojo.bo.SubmitOrderBO;
+import com.imooc.pojo.vo.OrderVO;
 
 public interface OrderService {
     /**
@@ -9,7 +10,7 @@ public interface OrderService {
      *
      * @param submitOrderBO 用于创建订单的BO对象
      */
-    String createOrder(SubmitOrderBO submitOrderBO);
+    OrderVO createOrder(SubmitOrderBO submitOrderBO);
 
     /**
      * 修改订单状态
