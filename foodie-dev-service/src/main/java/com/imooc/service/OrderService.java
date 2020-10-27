@@ -23,8 +23,14 @@ public interface OrderService {
 
     /**
      * 查询订单状态
+     *
      * @param orderId 订单Id
      * @return
      */
     OrderStatus queryOrderStatusInfo(String orderId);
+
+    /**
+     * 关闭超时未支付订单
+     */
+    void closeOrder();
 }
