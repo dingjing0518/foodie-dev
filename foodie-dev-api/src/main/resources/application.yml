@@ -28,7 +28,10 @@ spring:
       idle-timeout: 600000
       pool-name: DateSourceHikariCP                   #连接池名字
       connection-test-query: SELECT 1
-
+  servlet:
+    multipart:
+      max-file-size: 51200           #文件上传大小限制为500kb
+      max-request-size: 51200        #请求大小限制为500kb
 ########################################################
 
 ########################################################
