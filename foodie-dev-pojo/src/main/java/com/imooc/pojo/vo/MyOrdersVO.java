@@ -13,6 +13,7 @@ public class MyOrdersVO {
     private Integer realPayAmount;
     private Integer postAmount;
     private Integer orderStatus;
+    private Integer isComment;
     private List<MySubOrderItemVO> subOrderItemList;
 
     public String getOrderId() {
@@ -69,5 +70,13 @@ public class MyOrdersVO {
 
     public void setSubOrderItemList(List<MySubOrderItemVO> subOrderItemList) {
         this.subOrderItemList = subOrderItemList;
+    }
+
+    public Integer getIsComment() {
+        return isComment;
+    }
+
+    public void setIsComment(Integer isComment) {
+        this.isComment = isComment;
     }
 }
