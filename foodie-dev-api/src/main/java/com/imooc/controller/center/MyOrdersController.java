@@ -101,7 +101,7 @@ public class MyOrdersController extends BaseController {
         if (orders == null) {
             return IMOOCJSONResult.errorMsg("订单不存在！");
         }
-        return IMOOCJSONResult.ok();
+        return IMOOCJSONResult.ok(orders);
     }
 }
 
