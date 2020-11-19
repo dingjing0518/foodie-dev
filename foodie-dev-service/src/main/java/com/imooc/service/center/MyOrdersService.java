@@ -1,6 +1,7 @@
 package com.imooc.service.center;
 
 import com.imooc.pojo.Orders;
+import com.imooc.pojo.vo.OrderStatusCountVO;
 import com.imooc.utils.PagedGridResult;
 
 public interface MyOrdersService {
@@ -14,4 +15,8 @@ public interface MyOrdersService {
     boolean updateReceiveOrderStatus(String orderId);
 
     boolean deleteOrder(String userId, String orderId);
+
+    OrderStatusCountVO getOrderStatusCounts(String userId);
+
+    PagedGridResult getOrderTrend(String userId, Integer page, Integer pageSize);
 }
