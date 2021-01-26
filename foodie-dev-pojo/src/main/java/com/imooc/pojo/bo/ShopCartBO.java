@@ -51,12 +51,8 @@ public class ShopCartBO {
         this.specName = specName;
     }
 
-    public int getBuyCounts() {
+    public Integer getBuyCounts() {
         return buyCounts;
-    }
-
-    public void setBuyCounts(int buyCounts) {
-        this.buyCounts = buyCounts;
     }
 
     public void setBuyCounts(Integer buyCounts) {
